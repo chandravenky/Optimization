@@ -1,0 +1,24 @@
+import pulp
+prob = pulp.LpProblem("Marketing", pulp.LpMaximize)
+daytime = pulp.LpVariable("Daytime", lowBound=0, cat= pulp.LpInteger)
+evening = pulp.LpVariable("Evening", lowBound=0, cat=  pulp.LpInteger)
+daily = pulp.LpVariable("Daily", lowBound=0, cat= pulp.LpInteger)
+sunday = pulp.LpVariable("Sunday",lowBound=0, cat=  pulp.LpInteger)
+radio = pulp.LpVariable("Radio",lowBound=0, cat=  pulp.LpInteger)
+prob += 65*daytime + 90*evening + 40*daily + 60*sunday + 20*radio
+prob += 1500*daytime + 3000*evening + 400*daily + 1000*sunday + 100*radio<=30000
+prob +=daytime + evening >=10
+prob += 1000*daytime + 2000*evening + 1500*daily + 2500*sunday + 300*radio>=50000
+prob  += 1500*daytime + 3000*evening<=18000
+prob += daytime <= 15
+prob += evening <= 10
+prob += daily <= 25
+prob += sunday <= 4
+prob += radio <= 30
+prob
+prob.solve()
+prob.variables()
+for x in prob.variables():
+    print(pulp.value(x))
+pulp.value(prob.objective)
+
