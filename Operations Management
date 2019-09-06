@@ -1,0 +1,13 @@
+import pulp
+prob= pulp.LpProblem("Operations", pulp.LpMinimize)
+ing1 = pulp.LpVariable("Ingredient 1", 0, None)
+ing2 = pulp.LpVariable("Ingredient 2", 0, None)
+prob += 80*ing1 + 50*ing2
+prob += 3*ing1 + 1*ing2 >=6
+prob += 1*ing1 + 1*ing2 >=4
+prob += 2*ing1 + 6*ing2 >=12
+prob
+prob.solve()
+for x in prob.variables():
+    print(pulp.value(x))
+pulp.value(prob.objective)
