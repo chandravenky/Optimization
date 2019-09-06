@@ -1,0 +1,24 @@
+import pulp
+prob = pulp.LpProblem("Transportation", pulp.LpMinimize)
+x11 = pulp.LpVariable("Ny to Pittsburg", 0, None, cat = pulp.LpInteger)
+x12 = pulp.LpVariable("Ny to Buffalo", 0, None, cat = pulp.LpInteger)
+x13 = pulp.LpVariable("Ny to Philadelphia", 0, None, cat = pulp.LpInteger)
+x21 = pulp.LpVariable("WS to Pittsburg", 0, None, cat = pulp.LpInteger)
+x22 = pulp.LpVariable("WS to Buffalo", 0, None, cat = pulp.LpInteger)
+x23 = pulp.LpVariable("WSy to Philadelphia", 0, None, cat = pulp.LpInteger)
+x31 = pulp.LpVariable("Cl to Pittsburg", 0, None, cat = pulp.LpInteger)
+x32 = pulp.LpVariable("Cl to Buffalo", 0, None, cat = pulp.LpInteger)
+x33 = pulp.LpVariable("Cl to Philadelphia", 0, None, cat = pulp.LpInteger)
+prob += 439* x11 + 396*x12 + 91*x13 + 296*x21 + 434*x22 + 133*x23 + 131*x31 + 184*x32 + 479*x33
+prob += x11 + x12 + x13 <=26
+prob += x21 + x22 + x23<=43
+prob +=x31 + x32 + x33 <=31
+prob += x11 + x21 + x31 ==32
+prob += x12 + x22 + x32 == 28
+prob += x13+ x23 + x33 ==26
+prob
+prob.solve()
+for x in prob.variables():
+    print(x.name,  pulp.value(x))
+prob.variables()
+pulp.value(prob.objective)
