@@ -1,0 +1,20 @@
+import pulp
+prob = pulp.LpProblem("Investment problem", pulp.LpMaximize)
+a = pulp.LpVariable("A", 0, None, pulp.LpContinuous)
+b = pulp.LpVariable("B", 0, None, pulp.LpContinuous)
+c = pulp.LpVariable("C", 0, None, pulp.LpContinuous)
+d = pulp.LpVariable("D", 0, None, pulp.LpContinuous)
+e = pulp.LpVariable("E", 0, None, pulp.LpContinuous)
+prob += 0.043*a + 0.027*b + 0.025*c + 0.022*d + 0.045*e
+prob += b+c+d >=4
+prob += 0.6*a + 0.6*b -0.4*c - 0.4*d + 3.6*e<=0
+prob += 4*a + 10*b -1*c -2*d -3*e <=0
+prob += a+ b+ c+ d+ e<=10
+prob.solve()
+pulp.value(prob.objective)
+for x in prob.variables():
+    print(prob.name, pulp.value(x))
+
+
+
+
