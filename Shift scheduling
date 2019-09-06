@@ -1,0 +1,20 @@
+import pulp
+prob = pulp.LpProblem("Shift scheduling", pulp.LpMinimize)
+x1 = pulp.LpVariable("12 to 4", 0, None, pulp.LpInteger)
+x2 = pulp.LpVariable("4 to 8", 0, None, pulp.LpInteger)
+x3 = pulp.LpVariable("8 to Noon", 0, None, pulp.LpInteger)
+x4 = pulp.LpVariable("Noon to 4", 0, None, pulp.LpInteger)
+x5 = pulp.LpVariable("4 to 8 eve", 0, None, pulp.LpInteger)
+x6 = pulp.LpVariable("8 to 12 night", 0, None, pulp.LpInteger)
+prob += x1 + x2 + x3 + x4 + x5 + x6
+prob += x6 +x1 >=6
+prob += x1 +x2 >=4
+prob += x2 +x3 >=14
+prob += x3 +x4 >=8
+prob += x4 +x5 >=12
+prob += x5 +x6 >=16
+prob
+prob.solve()
+for x in prob.variables():
+    print(x.name, pulp.value(x))
+pulp.value(prob.objective)
